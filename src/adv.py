@@ -71,4 +71,4 @@ while action.lower() != "q":
         else:
             print("\nNot a valid command, please choose: \"n\", \"s\", \"e\", \"w\" \n")
     except:
-        print(f"\n***Cannot {action.lower()} from here***\n")
+        print(f"\n***That direction is not allowed from here***\n")
