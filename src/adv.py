@@ -55,20 +55,20 @@ player = Player("Mannie", 100, room["outside"])
 action = ""
 
 while action.lower() != "q":
-    print(f"\nYou are in the {player.room.name}g.\n{player.room.description}\n")
+    print(f"\nYou are in the {player.current_room.name}g.\n{player.current_room.description}\n")
 
     action = input("> ")
 
     try:
-        if action.lower() == "go north":
-            player.room = player.room.n_to
-        elif action.lower() == "go south":
-            player.room = player.room.s_to
-        elif action.lower() == "go east":
-            player.room = player.room.e_to
-        elif action.lower() == "go west":
-            player.room = player.room.w_to
+        if action.lower() == "n":
+            player.current_room = player.current_room.n_to
+        elif action.lower() == "s":
+            player.current_room = player.current_room.s_to
+        elif action.lower() == "e":
+            player.current_room = player.current_room.e_to
+        elif action.lower() == "w":
+            player.current_room = player.current_room.w_to
         else:
-            print("\nNot a valid command, please choose: \"go north\", \"go south\", \"go east\", \"go west\" \n")
+            print("\nNot a valid command, please choose: \"n\", \"s\", \"e\", \"w\" \n")
     except:
         print(f"\n***Cannot {action.lower()} from here***\n")
