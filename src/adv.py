@@ -1,5 +1,7 @@
 from room import Room
 from player import Player
+from item import Item
+import os
 
 # Declare all the rooms
 
@@ -34,6 +36,12 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+
+# Add items to rooms
+
+room["foyer"].items.append(Item("note", "A note from a previous adventurer, it reads: \n        I have slayed the Ogre\n        which dwelled here.\n\n                 Signed\n\n                Black Knight"))
+room["overlook"].items.append(Item("sword", "A rusty sword"))
+
 #
 # Main
 #
@@ -52,23 +60,52 @@ player = Player("Mannie", 100, room["outside"])
 #
 # If the user enters "q", quit the game.
 
-action = ""
+action = [""]
 
-while action.lower() != "q":
-    print(f"\nYou are in the {player.current_room.name}g.\n{player.current_room.description}\n")
+while action[0].lower() != "q":
+    
+    print(f"\nYou are in the {player.current_room.name}.\n{player.current_room.description}\n")
+    player.current_room.printItems()
 
-    action = input("> ")
+    action = input("> ").split(" ")
+    verb = action[0].lower()
+    obj = ""
+    if len(action) > 1: 
+        obj = action[1]
+    os.system("cls" if os.name == "nt" else "clear")
 
-    try:
-        if action.lower() == "n":
-            player.current_room = player.current_room.n_to
-        elif action.lower() == "s":
-            player.current_room = player.current_room.s_to
-        elif action.lower() == "e":
-            player.current_room = player.current_room.e_to
-        elif action.lower() == "w":
-            player.current_room = player.current_room.w_to
-        else:
-            print("\nNot a valid command, please choose: \"n\", \"s\", \"e\", \"w\" \n")
-    except:
-        print(f"\n***That direction is not allowed from here***\n")
+    if len(action) == 1:
+        try:
+            if verb == "n":
+                player.current_room = player.current_room.n_to
+            elif verb == "s":
+                player.current_room = player.current_room.s_to
+            elif verb == "e":
+                player.current_room = player.current_room.e_to
+            elif verb == "w":
+                player.current_room = player.current_room.w_to
+            elif verb == "i" or verb == "inventory":
+                player.printInventory()
+            elif verb == "q":
+                print("\nThank you for playing! Good Bye.\n")
+            else:
+                print("\nNot a valid command, please choose: \"n\", \"s\", \"e\", \"w\" \n")
+        except:
+            print(f"\n***That direction is not allowed from here***\n")
+    elif len(action) > 1:
+        if verb == "take" or verb == "get":
+            if player.current_room.hasItem(obj):
+                for item in player.current_room.items:
+                    if item.name == obj:
+                        print(f"\n{item.on_take()}\n")
+                        player.inventory.append(item)
+                        player.current_room.items.remove(item)
+                        break
+            else:
+                if len(player.current_room.items) < 1:
+                    print("\nThere are no items in this room\n")
+                else:
+                    print(f"\nThere is no {obj} in this room.\n")
+        
+
+    
