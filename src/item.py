@@ -7,10 +7,7 @@ class Item:
         return f"{self.name.capitalize()} - {self.description}"
 
     def __repr__(self):
-        return str({
-            "name": self.name,
-            "description": self.description
-        })
+        return f"Item(name: {self.name}, descriptiom: {self.description})"
 
     def on_take(self):
         return f"You have picked up {self.name}"

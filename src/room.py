@@ -10,7 +10,7 @@ class Room:
         if len(self.items) > 0:
             print("You can see the following items here:")
             for i, item in enumerate(self.items):
-                print(f"    {i+1}) {item.name}")
+                print(f"    {i+1}) {item.name.capitalize()}")
             print("")
 
     def __str__(self):
