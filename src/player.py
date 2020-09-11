@@ -2,6 +2,8 @@
 # currently.
 from gold import Gold
 from weapon import Weapon
+from lightsource import LightSource
+
 class Player:
     def __init__(self, name, health, current_room):
         self.name = name
@@ -94,21 +96,24 @@ class Player:
             self.armor += item.defense
 
     def take_item(self, obj):
-        for item in self.current_room.items:
-            if item.name == obj:
-                print(f"\n{item.on_take()}\n")
-                if isinstance(item, Gold):
-                    self.gold += item.value
-                    self.current_room.items.remove(item)
-                else:
-                    self.inventory.append(item)
-                    self.current_room.items.remove(item)
-                break
+        if self.current_room.is_light == True or self.current_room.hasLightSource() == True or self.hasLight_equipped() == True:
+            for item in self.current_room.items:
+                if item.name == obj:
+                    print(f"\n{item.on_take()}\n")
+                    if isinstance(item, Gold):
+                        self.gold += item.value
+                        self.current_room.items.remove(item)
+                    else:
+                        self.inventory.append(item)
+                        self.current_room.items.remove(item)
+                    break
+        else:
+            print(f"\nGood luck finding that {obj} in the dark!\n")
     
     def drop_item(self, obj):
         if self.hasItem(obj) == True:
             for item in self.inventory:
-                if item.name == obj and isinstance(item, Weapon) == True and item.equipped == True:
+                if item.name == obj and item.equipped == True:
                     print(f"You must unequip the {obj} first before dropping it")
                     break
                 elif item.name == obj:
@@ -118,3 +123,44 @@ class Player:
                     break
         else:
             print(f"You do not have a {obj}")
+
+    def equip_item(self, obj):
+        if self.hasItem(obj) == True:
+            for item in self.inventory:
+                if item.name == obj:
+                    if isinstance(item, Weapon) == True:
+                        self.main_hand = item.name.capitalize()
+                        self.strength = 1 + item.power
+                    else:
+                        self.off_hand = item.name.capitalize()
+                    item.equipped = True
+                    print(f"{item.name.capitalize()} has been equipped\n")
+                    break
+        else:
+            print(f"You do not have a {obj}\n")
+
+    def unequip_item(self, obj):
+        if self.hasItem(obj) == True:
+            for item in self.inventory:
+                if item.name == obj:
+                    if isinstance(item, Weapon) == True:
+                        self.main_hand = "empty"
+                        self.strength = 1
+                    else:
+                        self.off_hand = "empty"
+                    item.equipped = False
+                    print(f"{item.name.capitalize()} has been unequipped\n")
+                    break
+        else:
+            print(f"You do not have a {obj}\n")
+
+    def hasLight_equipped(self):
+        hasLight = False
+        if self.off_hand != "empty":
+            for item in self.inventory:
+                if item.name == self.off_hand.lower() and isinstance(item, LightSource):
+                    hasLight = True
+                    break
+        return hasLight
+                    
+

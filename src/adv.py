@@ -1,10 +1,6 @@
 import os
 from room_data import room
 from player import Player
-from item import Item
-from weapon import Weapon
-from gold import Gold
-
 
 #
 # Main
@@ -31,8 +27,9 @@ action = [""]
 while action[0].lower() != "q":
     
     print(f"Player Name: {player.name} - Health: {player.health} - Gold: {player.gold} - Main Hand: {player.main_hand} - Off Hand: {player.off_hand}")
+
     print(f"\nYou are in the {player.current_room.name}.\n{player.current_room.description}\n")
-    player.current_room.printItems()
+    player.current_room.printItems(player.hasLight_equipped())
 
     action = input("Type command or 'h / help' for instructions \n> ").split(" ")
     verb = action[0].lower()
@@ -71,8 +68,8 @@ while action[0].lower() != "q":
             if player.hasItem(obj):
                 player.drop_item(obj)
         elif verb == "equip":
-            player.equip_weapon(obj)
+            player.equip_item(obj)
         elif verb == "unequip":
-            player.unequip_weapon(obj)
+            player.unequip_item(obj)
 
     
