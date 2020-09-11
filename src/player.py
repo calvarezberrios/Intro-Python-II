@@ -31,6 +31,19 @@ class Player:
     def __repr__(self):
         return f"Player(health: {self.health}, room: {self.current_room})"
 
+    def move(self, direction):
+        try:
+            if direction == "n":
+                self.current_room = self.current_room.n_to
+            elif direction == "s":
+                self.current_room = self.current_room.s_to
+            elif direction == "e":
+                self.current_room = self.current_room.e_to
+            elif direction == "w":
+                self.current_room = self.current_room.w_to
+        except:
+            print(f"\n***That direction is not allowed from here***\n")
+
     def hasItem(self, name):
         found = False
         if len(self.inventory) > 0:
