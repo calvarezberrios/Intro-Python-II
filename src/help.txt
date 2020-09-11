@@ -1,0 +1,21 @@
+Welcome to the Ruins Adventures of Galeria
+Here you will find instructions on how to
+play and what you can do.
+
+Make sure to press 'ENTER'/'RETURN' with a command
+
+Actions                     Commands                    Description
+Movement                    n, s, e, w                  Moves you to the 
+                                                        room in the 
+                                                        direction chosen  
+
+Interact                    take/get "item name"        Interact with items
+                            drop "item name"            in room or your 
+                                                        inventory
+
+View inventory              i, inventory                Show your inventory
+
+Equip/Unequip Weapon        equip/unequip "item name"   Equip or unequip weapon 
+                                                        to/from main hand
+
+Quit Game                   q                           Quits the game
